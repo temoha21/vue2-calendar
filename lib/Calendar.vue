@@ -163,7 +163,7 @@ export default {
     format: {
       default: 'MM/dd/yyyy'
     },
-    disabledDaysOfWeek: {
+    disabledDays: {
       type: Array,
       default () {
         return []
@@ -642,10 +642,10 @@ export default {
         }
         for (let i = 1; i <= dayCount; i++) {
           const date = new Date(time.year, time.month, i)
-          const week = date.getDay()
+          const day = date.getDate()
           let sclass = ''
-          this.disabledDaysOfWeek.forEach((el) => {
-            if (week === parseInt(el, 10)) sclass = 'datepicker-item-disable'
+          this.disabledDays.forEach((el) => {
+            if (day === parseInt(el, 10)) sclass = 'datepicker-item-disable'
           })
           if (i === this.currDate.getDate()) {
             if (this.inputValue) {
