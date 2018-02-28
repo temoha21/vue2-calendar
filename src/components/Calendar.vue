@@ -163,7 +163,7 @@ export default {
     format: {
       default: 'MM/dd/yyyy'
     },
-    disabledDays: {
+    enabledDays: {
       type: Array,
       default () {
         return []
@@ -642,10 +642,10 @@ export default {
         }
         for (let i = 1; i <= dayCount; i++) {
           const date = new Date(time.year, time.month, i)
-          const day = date.getDate()
+          const formatedDate = `${time.year}-${(date.getMonth() + 1)}-${date.getDate()}`
           let sclass = ''
-          this.disabledDays.forEach((el) => {
-            if (day === parseInt(el, 10)) sclass = 'datepicker-item-disable'
+          this.enabledDays.forEach((el) => {
+            if (formatedDate !== el) sclass = 'datepicker-item-disable'
           })
           if (i === this.currDate.getDate()) {
             if (this.inputValue) {
