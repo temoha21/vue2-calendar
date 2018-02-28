@@ -508,7 +508,9 @@ export default {
           this.inputValue = this.stringify(this.currDate)
           this.displayDayView = false
         } else {
-          this.onDayClick(date, this.stringify(date))
+          if (item.sclass.indexOf('datepicker-item-disable')) {
+            this.onDayClick(date, this.stringify(date))
+          }
         }
       }
     },
