@@ -308,6 +308,9 @@ export default {
     },
     value (v) {
       this.inputValue = v
+    },
+    enabledDays () {
+      this.getDateRange()
     }
   },
   computed: {
@@ -652,13 +655,9 @@ export default {
           const date = new Date(time.year, time.month, i)
           const formatedDate = `${time.year}-${(time.month < 10) ? '0' + (time.month + 1) : time.month + 1}-${(i < 10) ? '0' + i : i}`
           let sclassAll = 'datepicker-item-disable'
-          console.log(this.enabledDays.find((el) => {
-            return formatedDate === el
-          }), formatedDate)
           if (this.enabledDays.find((el) => {
             return formatedDate === el
           })) {
-            console.log(formatedDate)
             sclassAll = ''
           }
           if (i === this.currDate.getDate()) {
