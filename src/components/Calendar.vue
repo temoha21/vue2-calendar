@@ -508,7 +508,8 @@ export default {
           this.inputValue = this.stringify(this.currDate)
           this.displayDayView = false
         } else {
-          if (item.sclass.indexOf('datepicker-item-disable')) {
+          console.log(item.sclass.indexOf('datepicker-item-disable'), item.sclass)
+          if (item.sclass.indexOf('datepicker-item-disable') < 0) {
             this.onDayClick(date, this.stringify(date))
           }
         }
@@ -633,26 +634,39 @@ export default {
           const prevMonthDayCount = this.getDayCount(preMonth.year, preMonth.month)
           for (let i = 1; i < firstDayWeek; i++) {
             const dayText = prevMonthDayCount - firstDayWeek + i + 1
+            const formatedDate = `${time.year}-${(time.month < 10) ? '0' + (time.month + 1) : time.month + 1}-${(dayText < 10) ? '0' + dayText : dayText}`
+            let sclassF = 'datepicker-item-disable'
+            if (this.enabledDays.find((el) => {
+              return formatedDate === el
+            })) {
+              sclassF = ''
+            }
             this.dateRange[p].push({
               text: dayText,
               date: new Date(preMonth.year, preMonth.month, dayText),
-              sclass: 'datepicker-item-gray'
+              sclass: 'datepicker-item-gray ' + sclassF
             })
           }
         }
         for (let i = 1; i <= dayCount; i++) {
           const date = new Date(time.year, time.month, i)
-          const formatedDate = `${time.year}-${(date.getMonth() + 1)}-${date.getDate()}`
-          let sclass = ''
-          this.enabledDays.forEach((el) => {
-            if (formatedDate !== el) sclass = 'datepicker-item-disable'
-          })
+          const formatedDate = `${time.year}-${(time.month < 10) ? '0' + (time.month + 1) : time.month + 1}-${(i < 10) ? '0' + i : i}`
+          let sclassAll = 'datepicker-item-disable'
+          console.log(this.enabledDays.find((el) => {
+            return formatedDate === el
+          }), formatedDate)
+          if (this.enabledDays.find((el) => {
+            return formatedDate === el
+          })) {
+            console.log(formatedDate)
+            sclassAll = ''
+          }
           if (i === this.currDate.getDate()) {
             if (this.inputValue) {
               const valueDate = this.parse(this.inputValue)
               if (valueDate) {
                 if (valueDate.getFullYear() === time.year && valueDate.getMonth() === time.month) {
-                  sclass = 'datepicker-dateRange-item-active'
+                  sclassAll = 'datepicker-dateRange-item-active'
                 }
               }
             }
@@ -660,17 +674,24 @@ export default {
           this.dateRange[p].push({
             text: i,
             date: date,
-            sclass: sclass
+            sclass: sclassAll
           })
         }
         if (this.dateRange[p].length < 42) {
           const nextMonthNeed = 42 - this.dateRange[p].length
           const nextMonth = this.getYearMonth(time.year, time.month + 1)
           for (let i = 1; i <= nextMonthNeed; i++) {
+            const formatedDate = `${time.year}-${(time.month < 10) ? '0' + (time.month + 1) : time.month + 1}-${(i < 10) ? '0' + i : i}`
+            let sclassL = 'datepicker-item-disable'
+            if (this.enabledDays.find((el) => {
+              return formatedDate === el
+            })) {
+              sclassL = ''
+            }
             this.dateRange[p].push({
               text: i,
               date: new Date(nextMonth.year, nextMonth.month, i),
-              sclass: 'datepicker-item-gray'
+              sclass: 'datepicker-item-gray ' + sclassL
             })
           }
         }
