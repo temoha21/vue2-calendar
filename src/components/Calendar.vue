@@ -278,6 +278,7 @@ export default {
       this.eventbus.$on('calendar-rangestart', this._updateRangeStart)
     }
     document.addEventListener('click', this._blur)
+    this.onDayClick(this.currDate, this.stringify(this.currDate))
   },
   beforeDestroy () {
     document.removeEventListener('click', this._blur)
