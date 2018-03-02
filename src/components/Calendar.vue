@@ -394,16 +394,17 @@ export default {
       return clazz.join(' ')
     },
     translations (lang) {
-      lang = lang || 'en'
+      lang = lang || 'it'
       let text = {
-        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-        limit: 'Limit reached ({{limit}} items max).',
-        loading: 'Loading...',
-        minLength: 'Min. Length',
-        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        daysOfWeek: ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'],
+        limit: 'Limite raggiunto ({{limite}} articoli max).',
+        loading: 'Caricamento in corso...',
+        minLength: 'Min. Lunghezza',
+        months: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
         notSelected: 'Nothing Selected',
-        required: 'Required',
-        search: 'Search'
+        required: 'Richiesto',
+        search: 'Cerca',
+        weekDays: ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato']
       }
       return window.VueCalendarLang ? window.VueCalendarLang(lang) : text
     },
@@ -511,7 +512,6 @@ export default {
           this.inputValue = this.stringify(this.currDate)
           this.displayDayView = false
         } else {
-          console.log(item.sclass.indexOf('datepicker-item-disable'), item.sclass)
           if (item.sclass.indexOf('datepicker-item-disable') < 0) {
             this.onDayClick(date, this.stringify(date))
           }
@@ -564,6 +564,9 @@ export default {
     parseMonth (date) {
       return this.text.months[date.getMonth()]
     },
+    parseDay (date) {
+      return this.text.weekDays[date.getDay()]
+    },
     stringifyYearHeader (date, year = 0) {
       return date.getFullYear() + year
     },
@@ -576,6 +579,7 @@ export default {
       const year = date.getFullYear()
       const month = date.getMonth() + 1
       const day = date.getDate()
+      const weekDay = this.parseDay(date)
       const monthName = this.parseMonth(date)
       return format
       .replace(/yyyy/g, year)
@@ -586,6 +590,7 @@ export default {
       .replace(/yy/g, year)
       .replace(/M(?!a)/g, month)
       .replace(/d/g, day)
+      .replace(/l/g, weekDay)
     },
     parse (str, safe = true) {
       if (typeof str == 'string') {
